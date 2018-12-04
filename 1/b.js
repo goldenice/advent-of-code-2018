@@ -1,7 +1,6 @@
 var fs = require('fs');
 
-const seen = new Set([0]);
-
+// Read list of changes just like in challenge A
 const changes = fs.readFileSync('input.txt', { encoding: 'utf-8' })
 				.split('\n')
 				.map(str => str.trim())
@@ -10,15 +9,20 @@ const changes = fs.readFileSync('input.txt', { encoding: 'utf-8' })
 
 let frequency = 0;
 let i = 0;
+const seen = new HashSet([0]);
+
 while (true) {
+	// Determine new frequency and break if we've seen it before
 	frequency += changes[i];
-	if (seen.has(frequency)) {
-		console.log('Duplicate', frequency);
-		break;
-	}
+	if (seen.has(frequency)) break;
+
+	// Add current frequency to seen set
 	seen.add(frequency);
+	
+	// Counter management
 	i++;
 	if (i >= changes.length) i = 0;
 }
 
-console.log('End frequency', frequency);
+// Output the first duplicate (we broke the loop on first dup)
+console.log('First duplicate frequency', frequency);
